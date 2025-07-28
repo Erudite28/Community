@@ -1,5 +1,5 @@
 djangorestframework
-djangorestframework-simplejwt
+djangorestframework_simplejwt
 psycopg2-binary
 django-filter
 pandas
