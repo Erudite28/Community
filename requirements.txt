@@ -1,0 +1,9 @@
+django
+djangorestframework
+psycopg2-binary
+django-filter
+pandas
+django-cors-headers
+python-decouple
+drf-yasg
+django-environ 
