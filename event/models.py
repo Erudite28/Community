@@ -14,7 +14,7 @@ class Event(models.Model):
 
 
     def __str__(self):
-        return self
+        return self.title
 
     def available_slots(self):
         return self.max_volunteers - self.volunteers.count()

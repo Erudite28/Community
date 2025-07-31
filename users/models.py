@@ -9,21 +9,20 @@ class User(AbstractUser):
     role = models.CharField(max_length=12, choices=Role.choices, default=Role.VOLUNTEER)
     email = models.EmailField(unique=True)
     name = models.CharField(max_length=20)
-    password = models.CharField(max_length=20, blank=True)
     bio = models.TextField(blank=True)
 
     def __str__(self):
-        return self
+        return self.username
 
     class Meta:
         swappable = 'AUTH_USER_MODEL'
-    # Create your models here
+
     groups = models.ManyToManyField(
         Group,
         verbose_name='groups',
         blank=True,
         help_text='The groups this user belongs to.',
-        related_name="custom_user_set",  # Changed from default 'user_set'
+        related_name="custom_user_set",  
         related_query_name="user",
     )
 
@@ -32,6 +31,6 @@ class User(AbstractUser):
         verbose_name='user permissions',
         blank=True,
         help_text='Specific permissions for this user.',
-        related_name="custom_user_set",  # Changed from default 'user_set'
+        related_name="custom_user_set", 
         related_query_name="user",
     )

@@ -12,4 +12,4 @@ class VolunteerSignup(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='volunteers')
     volunteer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='signed_up_event')
     status = models.CharField(max_length=10, choices=Status.choices, default=Status.PENDING)
-    #signed_up_at = models.DateTimeField(auto_now_add=True)
+    signed_up_at = models.DateTimeField(auto_now_add=True)
