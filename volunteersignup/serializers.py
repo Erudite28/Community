@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import VolunteerSignup
-from user.model import User
-from event.model import Event
+from users.models import User
+from event.models import Event
 
 class VolunteerSignupSerializer(serializers.ModelSerializer):
     event = serializers.PrimaryKeyRelatedField(queryset=Event.objects.all())

@@ -1,10 +1,10 @@
-from rest_framework import serializers
+'''from rest_framework import serializers
 from .models import User, Event, VolunteerSignup
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'name', 'role', 'bio']
+        fields = ['id', 'name', 'email', 'role']
         extra_kwargs = {
             'password': {'write_only': True},
             'name': {'source': 'get_full_name', 'read_only': True}
@@ -16,7 +16,11 @@ class EventSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Event
-        fields = ['id', 'title', 'description', 'date', 'location', 'max_volunteers', 'organizers', 'available_slots']
+        fields = [
+            'id', 'title', 'description', 'date', 
+            'location', 'max_volunteers', 'organizers',
+            'available_slots'
+        ]
 
 class VolunteerSignupSerializer(serializers.ModelSerializer):
     event = serializers.PrimaryKeyRelatedField(queryset=Event.objects.all())
@@ -33,4 +37,4 @@ class VolunteerSignupSerializer(serializers.ModelSerializer):
     def validate(self, data):
         if data['volunteer'].role != User.Role.VOLUNTEER:
             raise serializers.ValidationError("Only volunteers can sign up for events.")
-        return data
+        return data'''
