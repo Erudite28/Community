@@ -1,36 +1,39 @@
 from rest_framework import serializers
+from django.contrib.auth.models import Group, Permission
 from .models import User
-from django.contrib.auth import authenticate
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'name', 'role', 'bio')
+        fields = ['id', 'username', 'email', 'name', 'role', 'bio']
         extra_kwargs = {'password': {'write_only': True}}
 
-class RegisterSerializer(serializers.ModelSerializer):
+class GroupSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ('id', 'username', 'email', 'password', 'name', 'role', 'bio')
-        extra_kwargs = {'password': {'write_only': True}}
+        model = Group
+        fields = ['id', 'name']
 
-    def create(self, validated_data):
-        users = User.objects.create_user(
-            username=validated_data['username'],
-            email=validated_data['email'],
-            password=validated_data['password'],
-            name=validated_data.get('name', ''),
-            role=validated_data.get('role', User.Role.VOLUNTEER),
-            bio=validated_data.get('bio', '')
-        )
-        return users
+class PermissionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Permission
+        fields = ['id', 'name', 'codename']
 
-class LoginSerializer(serializers.Serializer):
-    email = serializers.EmailField()
-    password = serializers.CharField()
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        
+        # Add custom claims
+        token['username'] = user.username
+        token['email'] = user.email
+        token['role'] = user.role
+        return token
 
-    def validate(self, data):
-        user = authenticate(email=data['email'], password=data['password'])
-        if not users:
-            raise serializers.ValidationError("Invalid credentials")
-        return users
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        data.update({
+            'user': UserSerializer(self.user).data,
+            'role': self.user.role
+        })
+        return data
