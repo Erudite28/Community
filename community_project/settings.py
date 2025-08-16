@@ -142,15 +142,3 @@ REST_FRAMEWORK = {
 }
 
 AUTH_USER_MODEL = 'users.User'
-
-# settings.py
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.mailgun.org'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-
-EMAIL_HOST_USER = 'dayor@sandbox0605c406e9b24efaa1399b0b3bc6cb7e.mailgun.org' 
-EMAIL_HOST_PASSWORD = '5ac21be36ff753c1ebae6bfa547e3f9c-16bc1610-820cec3b'
-
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
