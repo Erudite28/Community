@@ -3,7 +3,7 @@ from event.models import Event
 #from .serializers import  EventSerializer
 from volunteersignup.models import VolunteerSignup
 
-class CreateEventSerializer(serializers.ModelSerializer):
+class CRUDEventSerializer(serializers.ModelSerializer):
    # events to be created by organizers
    class Meta:
       model = Event

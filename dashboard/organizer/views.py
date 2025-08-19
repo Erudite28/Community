@@ -1,5 +1,5 @@
 from rest_framework import generics, permissions
-from .serializers import OrganizedEventsSerializer, CreateEventSerializer
+from .serializers import OrganizedEventsSerializer, CRUDEventSerializer
 # from .models import VolunteerSignup
 from django.http import HttpResponse
 import csv
@@ -21,8 +21,8 @@ class OrganizedEventView(generics.ListAPIView):
         return OrganizedEventView.objects.filter(organizer=user).select_related('organizer')
     
 
-class CreateRetrieveUpdateDeleteEventView(generics.CreateAPIView):
-    serializer_class = CreateEventSerializer
+class  CRUDEventView(generics.CreateAPIView):
+    serializer_class = CRUDEventSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
