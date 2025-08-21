@@ -42,8 +42,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'users',
     'event',
-    'volunteersignup',
-    
+    'volunteersignup',    
 ]
 
 MIDDLEWARE = [

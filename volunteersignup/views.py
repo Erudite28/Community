@@ -1,7 +1,8 @@
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
-from .models import VolunteerSignup,User
-from .serializers import VolunteerSignupSerializer
+from rest_framework.exceptions import ValidationError
+from .models import VolunteerSignup,User,Event
+from .serializers import VolunteerSignupSerializer,EventSerializer
 
 class VolunteerSignupListCreateView(generics.ListCreateAPIView):
     serializer_class = VolunteerSignupSerializer
@@ -17,6 +18,30 @@ class VolunteerSignupListCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         # Automatically set the volunteer to the current user
         serializer.save(volunteer=self.request.user)
+
+class VolunteerSignupCancelView(generics.DestroyAPIView):
+    queryset = VolunteerSignup.objects.all()
+    serializer_class = VolunteerSignupSerializer
+    permission_classes = [permissions.IsAuthenticated]
+                
+    def get_queryset(self):
+        return VolunteerSignup.objects.filter(volunteer=self.request.user)
+
+class EventSlotAvailabilityView(generics.RetrieveAPIView):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def retrieve(self, request, *args, **kwargs):
+        event = self.get_object()
+        return Response({
+            'event_id': event.id,
+            'event_title': event.title,
+            'max_volunteers': event.max_volunteers,
+            'current_volunteers': event.current_volunteers,
+            'available_slots': event.available_slots(),
+            'is_full': event.is_full()
+        })
 
 class VolunteerSignupRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = VolunteerSignup.objects.all()

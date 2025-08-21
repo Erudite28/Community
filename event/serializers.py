@@ -13,7 +13,9 @@ class UserSerializer(serializers.ModelSerializer):
 class EventSerializer(serializers.ModelSerializer):
     organizers = UserSerializer(many=True, read_only=True)
     available_slots = serializers.IntegerField(read_only=True)
-    
+    is_full = serializers.IntegerField(read_only=True)
+
+
     class Meta:
         model = Event
-        fields = ['id', 'title', 'description', 'date', 'location', 'max_volunteers', 'organizers', 'available_slots']
+        fields = ['id', 'title', 'description', 'date', 'location', 'max_volunteers', 'organizers', 'available_slots', 'is_full']
