@@ -1,5 +1,5 @@
 # from django.shortcuts import render
-from .serializers import VolunteerDashboardSerializer, volunteeredDsahboardSerializer
+from .serializers import VolunteerDashboardSerializer, VolunteeredDetailSerializer, VolunteeredListSerializer
 from rest_framework import generics, permissions
 from volunteersignup.models import VolunteerSignup
 from django_filters.rest_framework import DjangoFilterBackend
@@ -13,8 +13,8 @@ class VolunteerDashboardView(generics.ListAPIView):
         user = self.request.user
         return serializer.save(volunteer_name=user.username)
 
-class VolunteeredDashboardView(generics.ListAPIView):
-    serializer_class = volunteeredDsahboardSerializer
+class VolunteeredListView(generics.ListAPIView):
+    serializer_class = VolunteeredListSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     search_fields = ['title', 'date', 'location']
@@ -23,3 +23,12 @@ class VolunteeredDashboardView(generics.ListAPIView):
     def get_queryset(self):
         user = self.request.user
         return VolunteerSignup.objects.filter(volunteer_name=user.username)
+    
+class VolunteeredDetailView(generics.RetrieveAPIView):
+    serializer_class = VolunteeredDetailSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self): #returns the info of the logged in volunteer
+        user = self.request.user
+        return VolunteerSignup.objects.filter(volunteer_name=user.username)
+    
