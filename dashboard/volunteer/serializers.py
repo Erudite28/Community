@@ -7,7 +7,32 @@ class VolunteerDashboardSerializer(serializers.ModelSerializer):
   class Meta:         
     model = VolunteerSignup
     fields = ['__all__' ]
-    read_only_fields = ['__al__']
+    read_only_fields = ['__all__']
+
+class OngoingVolunteeredEventListSeriaalizer(serializers.ModelSerializer):
+  class Meta:
+    model = Event
+    fields = ['id', 'title', 'location', 'date']
+    read_only_fields = ['id', 'title', 'location', 'date']
+
+class OngoingVolunteeredEventDetailSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Event
+    fields = ['id', 'title', 'description', 'date', 'location', 'phone_number']
+    read_only_fields = ['id', 'title', 'description', 'date', 'location', 'phone_nummber']
+
+class UpcomingVolunteeredListSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Event
+    fields = ['id', 'title', 'location', 'date']
+    read_only_fields = ['id', 'title', 'location', 'date']
+
+class UpcomingVolunteeredDetailSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Event
+    fields = ['id', 'title', 'description', 'date', 'location', 'joined_at', 'role', 'status']
+    read_only_fields = ['id', 'title', 'description', 'date', 'location', 'joined_at', 'role', 'status']
+
 
 class VolunteeredListSerializer(serializers.ModelSerializer): #shows volunteered events list
   class Meta:
