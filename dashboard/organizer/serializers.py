@@ -31,21 +31,35 @@ class CRUDEventSerializer(serializers.ModelSerializer):
 #       fields = ['id', 'location', 'title', 'volunteer_name', 'volunteer_phone_number', 'role', 'status', 'date']
 #       read_only_fields = ['id', 'location', 'title', 'volunteer_name', 'volunteer_phone_number', 'role', 'status', 'date']
 
-class CurrentVolunteeredListSerializer(serializers.ModelSerializer): #to show current volunteer list for the event creaated
+class OngoingOrganizedListSerializer(serializers.ModelSerializer): #to show current volunteer list for the event creaated
    class Meta:
       model = VolunteerSignup
       fields = ['id', 'volunteer_name']
       read_only_fields = ['id']
 
       
-   def get_volunteer_count(self, obj):
-    return obj.volunteersignup_set.count()
+class OngoingOrganizedDetailSerializer(serializers.ModelSerializer):
+   volunteer_count = serializers.SerializerMethodField()
 
-class CurrentVolunteeredDetailSerializer(serializers.ModelSerializer):
    class Meta:
       model = VolunteerSignup
       fields = ['id', 'volunteer_name', 'volunteer_phone_number', 'role', 'status']
       read_only_fields = ['id', 'volunteer_name', 'volunteer_phone_number', 'role', 'status']
+
+      def get_volunteer_count(self, obj):
+       return obj.volunteersignup_set.count()
+      
+class OngoingVolunteeredListSerializer(serializers.ModelSerializer):
+   class Meta:
+      model = VolunteerSignup
+      fields = ['id', 'Volunteer_name']
+      read_only_,fields = ['id', 'volunteer_name']
+
+class OngoingVolunteeredDetailSeriializer(serializers.ModelSerializer):
+   class Meta:
+      model = VolunteerSignup
+      fields = ['id', 'volunteer_name', 'volunteer_phone_nuumber', 'role']
+      read_only_fields = ['id', 'volunteer_name', 'volunteer_phone_number', 'role']  
 
 
 class OrganizedEventListSerializer(serializers.ModelSerializer):
@@ -54,12 +68,24 @@ class OrganizedEventListSerializer(serializers.ModelSerializer):
       fields = ['id', 'title']
       read_only_fields = ['id', 'title']
     
-   def get_volunteer_count(self, obj):
-    return obj.volunteersignup_set.count()
-
 
 class OrganizedEventDetailSerializer(serializers.ModelSerializer):
    class Meta:
       model = Event
       fields = ['id', 'title', 'description', 'date', 'location', 'max_volunteers', 'phone_number', 'volunteer_count']
       read_only_fields = ['id', 'title', 'description', 'date', 'location', 'max_volunteers', 'phone_number', 'volunteer_count']
+
+      def get_volunteer_count(self, obj):
+       return obj.volunteersignup_set.count()
+      
+class VolunteeredListSerializer(serializers.ModelSerializer):
+   class Meta:
+      model = VolunteerSignup
+      fields = ['id', 'volunteer_name']
+      read_only_fields = ['id', 'volunteer_name']
+
+class VolunteeredDetailSeriallizer(serializers.ModelSerializer):
+   class Meta:
+      model = VolunteerSignup
+      fields = ['id', 'volunteer_name', 'volunteer_phone_number', 'role', 'status']
+      read_only_fields = ['id', 'volunteer_name', 'volunteer_phone_number', 'role', 'status']
